@@ -9,6 +9,6 @@ public class ExampleTest {
 
     @Test
     public void exampleTest() {
-        assertThat(3 + 2, equalTo(4));
+        assertThat(2 + 2, equalTo(4));
     }
 }
