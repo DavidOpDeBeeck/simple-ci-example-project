@@ -11,4 +11,9 @@ public class ExampleTest {
     public void exampleTest() {
         assertThat(2 + 2, equalTo(4));
     }
+
+    @Test
+    public void exampleFailingTest() {
+        assertThat(3 + 2, equalTo(4));
+    }
 }
