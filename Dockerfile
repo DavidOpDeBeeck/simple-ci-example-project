@@ -1,4 +1,4 @@
-FROM java:8-jre-alpine
+FROM java:8-jdk-alpine
 
 RUN mkdir /app
 COPY / /app/
