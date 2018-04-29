@@ -1,4 +1,4 @@
-FROM centos
+FROM java:8-jre-alpine
 
 RUN mkdir /app
 COPY * /app/
