@@ -1,7 +1,7 @@
 FROM java:8-jre-alpine
 
 RUN mkdir /app
-COPY * /app/
+COPY / /app/
 WORKDIR /app
 RUN chmod +x gradlew && ./gradlew bootJar
 
