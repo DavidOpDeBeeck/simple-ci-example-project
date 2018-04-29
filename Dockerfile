@@ -1,7 +1,7 @@
 FROM centos
 
 RUN mkdir /app
-COPY * /app
+COPY * /app/
 RUN ./gradlew bootJar
 
 FROM fabric8/java-jboss-openjdk8-jdk:1.2.3
