@@ -2,7 +2,8 @@ FROM java:8-jre-alpine
 
 RUN mkdir /app
 COPY * /app/
-RUN chmod +x /app/gradlew && ./app/gradlew bootJar
+WORKDIR /app
+RUN chmod +x gradlew && ./gradlew bootJar
 
 FROM fabric8/java-jboss-openjdk8-jdk:1.2.3
 
