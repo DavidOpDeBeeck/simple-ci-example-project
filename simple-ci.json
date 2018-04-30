@@ -4,6 +4,7 @@
     "build"
   ],
   "artifacts": [
+    "build.gradle",
     "build/libs/simple-ci-example-project-1.0.jar"
   ]
 }
