@@ -1,8 +1,7 @@
 {
   "gradle-tasks": [
     "clean",
-    "build",
-    "test"
+    "build"
   ],
   "artifacts": [
     "build/libs/simple-ci-example-project-1.0.jar"
