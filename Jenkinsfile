@@ -1,5 +1,5 @@
 node {
-    stage {
+    stage("test") {
         checkout scm
         sh "ls -lh"
     }
