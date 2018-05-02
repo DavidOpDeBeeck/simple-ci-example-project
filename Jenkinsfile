@@ -19,11 +19,13 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                openshift.withCluster {
-                    openshift.startBuild(
-                        'application-build',
-                        '--from-file=build/libs/simple-ci-example-project-1.0.jar',
-                        '--wait=true')
+                script {
+                    openshift.withCluster {
+                        openshift.startBuild(
+                            'application-build',
+                            '--from-file=build/libs/simple-ci-example-project-1.0.jar',
+                            '--wait=true')
+                    }
                 }
             }
         }
