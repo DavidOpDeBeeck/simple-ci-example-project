@@ -28,7 +28,7 @@ pipeline {
                                 "--binary=true",
                                 "--to=${templateName}:1.2.3")
                             openshift.startBuild(
-                                ${templateName},
+                                "${templateName}",
                                 '--from-dir=.',
                                 '--wait=true')
                         }
