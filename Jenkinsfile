@@ -26,11 +26,11 @@ pipeline {
                             openshift.newbuild(
                                 "--strategy=docker",
                                 "--binary=true",
-                                "--to=${templateName}:1.2.3")
+                                "--to=${templateName}:1.2.3");
                             openshift.startBuild(
                                 "${templateName}",
                                 '--from-dir=.',
-                                '--wait=true')
+                                '--wait=true');
                         }
                     }
                 }
