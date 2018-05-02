@@ -24,7 +24,7 @@ pipeline {
                     openshift.withCluster {
                         openshift.withProject() {
                             openshift.newBuild(
-                                '--name ${templateName}',
+                                "--name ${templateName}",
                                 '--strategy=docker',
                                 '--binary=true',
                                 "--to=${templateName}:1.2.3");
