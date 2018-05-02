@@ -23,7 +23,7 @@ pipeline {
                 script {
                     openshift.withCluster {
                         openshift.withProject() {
-                            openshift.newbuild(
+                            openshift.newBuild(
                                 '.',
                                 '--strategy=docker',
                                 '--binary=true',
