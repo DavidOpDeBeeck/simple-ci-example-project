@@ -1,3 +1,4 @@
+def templateName = 'application-build'
 pipeline {
     agent any
     stages {
@@ -21,10 +22,23 @@ pipeline {
             steps {
                 script {
                     openshift.withCluster {
-                        openshift.startBuild(
-                            'application-build',
-                            '--from-file=build/libs/simple-ci-example-project-1.0.jar',
-                            '--wait=true')
+                        openshift.withProject() {
+                            openshift.startBuild(
+                                'application-build',
+                                '--from-file=build/libs/simple-ci-example-project-1.0.jar',
+                                '--wait=true')
+                        }
+                    }
+                }
+            }
+        }
+        stage('Tag Docker Image') {
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            openshift.tag("${templateName}:latest", "${templateName}-staging:latest")
+                        }
                     }
                 }
             }
