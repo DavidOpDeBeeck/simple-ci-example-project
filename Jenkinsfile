@@ -39,6 +39,7 @@ pipeline {
                 script {
                     doInOpenshift {
                         openshift.startBuild(appName, '--from-dir=.', '--wait=true')
+                        openshift.tag("${appName}:latest", "${appName}-test:latest")
                     }
                 }
             }
