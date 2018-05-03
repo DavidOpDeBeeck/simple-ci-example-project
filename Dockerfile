@@ -4,4 +4,4 @@ ENV AB_OFF true
 
 EXPOSE 8888
 
-COPY *.jar /deployments/
+COPY build/libs/*.jar /deployments/
