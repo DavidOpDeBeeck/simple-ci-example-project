@@ -5,17 +5,17 @@ pipeline {
         stage('Git Clone') {
             steps {
                 checkout scm
+                sh 'chmod +x gradlew'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'chmod +x gradlew'
-                sh './gradlew test'
+                gradlew('test')
             }
         }
         stage('Build Artifact') {
             steps {
-                sh './gradlew bootJar'
+                gradlew('bootJar')
             }
         }
         stage('Build Docker Image') {
@@ -23,10 +23,9 @@ pipeline {
                 script {
                     openshift.withCluster {
                         openshift.withProject() {
-                            openshift.newBuild('--name=test', '--strategy=docker','--binary=true', "--dockerfile=${readFile('Dockerfile')}");
                             openshift.startBuild(
-                                "test",
-                                '--from-file=build/libs/simple-ci-example-project-1.0.jar',
+                                "${templateName}",
+                                '--from-dir=.',
                                 '--wait=true');
                         }
                     }
@@ -45,4 +44,8 @@ pipeline {
             }
         }
     }
+}
+
+def gradlew(tasks) {
+    sh './gradlew test'
 }
