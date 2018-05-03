@@ -19,7 +19,7 @@ pipeline {
                 gradlew('bootJar')
             }
         }
-        stage('Build Docker Image [OC]') {
+        stage('Build Docker Image [OC-JOB]') {
             when {
                 expression {
                     doInOpenshift {
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     doInOpenshift {
-                        openshift.newBuild("--name=${appName}", "--strategy=docker", "--binary=true")
+                        openshift.newBuild("--name=${appName}", '--strategy=docker', '--binary=true')
                     }
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     doInOpenshift {
-                        openshift.selector("bc", appName).startBuild('--from-dir=.', '--wait=true')
+                        openshift.startBuild("--name=${appName}", '--from-dir=.', '--wait=true')
                     }
                 }
             }
@@ -51,10 +51,10 @@ def gradlew(task) {
     sh "./gradlew ${task}"
 }
 
-def doInOpenshift(Closure closure) {
+def doInOpenshift(Closure command) {
     openshift.withCluster {
         openshift.withProject {
-            return closure.call()
+            return command.call()
         }
     }
 }
