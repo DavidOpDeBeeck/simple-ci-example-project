@@ -23,10 +23,10 @@ pipeline {
                 script {
                     openshift.withCluster {
                         openshift.withProject() {
+                            openshift.newBuild('--name=test', '--strategy=docker','--binary=true', "--dockerfile=${new File('Dockerfile').text}");
                             openshift.startBuild(
-                                "${templateName}",
+                                "test",
                                 '--from-file=build/libs/simple-ci-example-project-1.0.jar',
-                                '--from-file=Dockerfile',
                                 '--wait=true');
                         }
                     }
