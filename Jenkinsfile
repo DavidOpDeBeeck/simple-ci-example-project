@@ -39,6 +39,21 @@ pipeline {
                 script {
                     doInOpenshift {
                         openshift.startBuild(appName, '--from-dir=.', '--wait=true')
+                    }
+                }
+            }
+        }
+        stage('Deploy to TEST?') {
+            steps {
+                timeout(time:15, unit:'MINUTES') {
+                    input message: "Deploy to TEST?", ok: "Deploy"
+                }
+            }
+        }
+        stage('Deploy to TEST?') {
+            steps {
+                script {
+                    doInOpenshift {
                         openshift.tag("${appName}:latest", "${appName}-test:latest")
                     }
                 }
