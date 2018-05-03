@@ -5,8 +5,7 @@ pipeline {
     stages {
         stage('Git Clone') {
             steps {
-                checkout scm
-                sh 'chmod +x gradlew'
+                gitClone()
             }
         }
         stage('Run Tests') {
@@ -45,6 +44,11 @@ pipeline {
             }
         }
     }
+}
+
+def gitClone() {
+    checkout scm
+    sh 'chmod +x gradlew'
 }
 
 def gradlew(task) {
