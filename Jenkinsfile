@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     doInOpenshift {
-                        openshift.startBuild("--name=${appName}", '--from-dir=.', '--wait=true')
+                        openshift.startBuild(appName, '--from-dir=.', '--wait=true')
                     }
                 }
             }
