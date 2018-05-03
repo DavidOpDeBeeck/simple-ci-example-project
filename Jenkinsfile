@@ -1,4 +1,5 @@
-def templateName = 'application-build'
+def appName = 'application-build'
+
 pipeline {
     agent any
     stages {
@@ -18,20 +19,27 @@ pipeline {
                 gradlew('bootJar')
             }
         }
-        stage('Build Docker Image') {
+        stage('Build Docker Image [OC]') {
+            when {
+                expression {
+                    doInOpenshift {
+                        !openshift.selector("bc", appName).exists()
+                    }
+                }
+            }
             steps {
                 script {
                     doInOpenshift {
-                        openshift.startBuild("${templateName}", '--from-dir=.', '--wait=true')
+                        openshift.newBuild("--name=${appName}", "--strategy=docker", "--binary=true")
                     }
                 }
             }
         }
-        stage('Tag Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     doInOpenshift {
-                        openshift.tag("${templateName}:latest", "${templateName}-staging:latest")
+                        openshift.selector("bc", appName).startBuild('--from-dir=.', '--wait=true')
                     }
                 }
             }
@@ -45,8 +53,8 @@ def gradlew(task) {
 
 def doInOpenshift(Closure closure) {
     openshift.withCluster {
-        openshift.withProject() {
-            closure.call()
+        openshift.withProject {
+            return closure.call()
         }
     }
 }
