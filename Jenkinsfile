@@ -20,16 +20,9 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                script {
-                    openshift.withCluster {
-                        openshift.withProject() {
-                            openshift.startBuild(
-                                "${templateName}",
-                                '--from-dir=.',
-                                '--wait=true');
-                        }
-                    }
-                }
+                oc({
+                    openshift.startBuild("${templateName}", '--from-dir=.', '--wait=true')
+                })
             }
         }
         stage('Tag Docker Image') {
@@ -46,6 +39,16 @@ pipeline {
     }
 }
 
-def gradlew(tasks) {
-    sh './gradlew test'
+def gradlew(task) {
+    sh "./gradlew ${task}"
+}
+
+def oc(Closure closure) {
+    script {
+        openshift.withCluster {
+            openshift.withProject() {
+                closure.call()
+            }
+        }
+    }
 }
