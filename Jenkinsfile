@@ -25,7 +25,8 @@ pipeline {
                         openshift.withProject() {
                             openshift.startBuild(
                                 "${templateName}",
-                                '--from-dir=.',
+                                '--from-file=build/libs/simple-ci-example-project-1.0.jar',
+                                '--from-file=Dockerfile',
                                 '--wait=true');
                         }
                     }
